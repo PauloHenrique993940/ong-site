@@ -4,5 +4,7 @@ export const NOTICIAS_QUERY = defineQuery(`*[_type == "post" && defined(slug.cur
 export const NOTICIAS_COUNT_QUERY = defineQuery(`count(*[_type == "post" && defined(slug.current) && (!defined($search) || title match $search)])`)
 export const NOTICIA_QUERY = defineQuery(`*[_type == "post" && slug.current == $slug][0]{ _id, title, slug, excerpt, publishedAt, category, mainImage { asset, alt }, body }`)
 export const PROJETOS_QUERY = defineQuery(`*[_type == "projeto" && defined(slug.current)] | order(_createdAt desc) { _id, title, slug, summary, status, location, impact, coverImage { asset, alt } }`)
+export const PROJETO_QUERY = defineQuery(`*[_type == "projeto" && slug.current == $slug][0]{ _id, title, slug, summary, status, location, startDate, endDate, impact, coverImage { asset, alt }, body }`)
 export const RELATORIOS_QUERY = defineQuery(`*[_type == "relatorioTransparencia"] | order(publishedAt desc) { _id, title, period, publishedAt, file { asset->{url, originalFilename} } }`)
-export const CONFIGURACOES_QUERY = defineQuery(`*[_type == "configuracoesGerais" && _id == "configuracoesGerais"][0]{ organizationName, siteDescription, contactEmail, contactPhone, pixKey, pixName, pixBank, instagram, facebook, linkedin, address }`)
+export const CONFIGURACOES_QUERY = defineQuery(`*[_type == "configuracoesGerais" && _id == "configuracoesGerais"][0]{ organizationName, siteDescription, contactEmail, contactPhone, pixKey, pixName, pixBank, bankName, bankAgency, bankAccount, bankAccountType, bankHolder, bankDocument, instagram, facebook, linkedin, address }`)
+export const SITEMAP_QUERY = defineQuery(`*[_type in ["post", "projeto"] && defined(slug.current)]{ _type, "slug": slug.current, _updatedAt }`)

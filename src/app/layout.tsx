@@ -12,7 +12,7 @@ const serif = Playfair_Display({ variable: '--font-serif', subsets: ['latin'] })
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await sanityFetch<SiteSettings | null>(CONFIGURACOES_QUERY, {}, ['configuracoes'], null)
   const name = settings?.organizationName ?? 'Sua ONG'
-  return { title: { default: `${name} — Organização social`, template: `%s | ${name}` }, description: settings?.siteDescription ?? 'Cultivamos oportunidades e construímos futuros mais justos junto às comunidades.', openGraph: { type: 'website', locale: 'pt_BR', siteName: name } }
+  return { metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'), title: { default: `${name} — Organização social`, template: `%s | ${name}` }, description: settings?.siteDescription ?? 'Cultivamos oportunidades e construímos futuros mais justos junto às comunidades.', openGraph: { type: 'website', locale: 'pt_BR', siteName: name }, robots: { index: true, follow: true } }
 }
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

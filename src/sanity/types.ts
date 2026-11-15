@@ -6,6 +6,12 @@ export type SiteSettings = {
   pixKey?: string
   pixName?: string
   pixBank?: string
+  bankName?: string
+  bankAgency?: string
+  bankAccount?: string
+  bankAccountType?: string
+  bankHolder?: string
+  bankDocument?: string
   instagram?: string
   facebook?: string
   linkedin?: string

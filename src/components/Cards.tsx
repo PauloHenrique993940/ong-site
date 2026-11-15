@@ -20,6 +20,6 @@ export function ProjectCards({ items }: { items: ProjectItem[] }) {
   if (!items.length) return <div className="empty-state">Os projetos serão apresentados aqui assim que a equipe publicar os primeiros conteúdos no Studio.</div>
   return <div className="card-grid">{items.map((item) => {
     const src = imageUrl(item.coverImage)
-    return <article className="project-card" key={item._id}><div className="card-image">{src && <Image src={src} alt={(item.coverImage as { alt?: string })?.alt ?? ''} fill sizes="(max-width: 600px) 100vw, 33vw" />}<span className="tag">{item.status ?? 'Projeto'}</span></div><div className="card-copy"><span className="card-meta">{item.location ?? 'Atuação comunitária'}</span><h3>{item.title}</h3><p>{item.summary}</p></div></article>
+    return <Link href={`/projetos/${item.slug?.current ?? ''}`} className="project-card" key={item._id}><div className="card-image">{src && <Image src={src} alt={(item.coverImage as { alt?: string })?.alt ?? ''} fill sizes="(max-width: 600px) 100vw, 33vw" />}<span className="tag">{item.status ?? 'Projeto'}</span></div><div className="card-copy"><span className="card-meta">{item.location ?? 'Atuação comunitária'}</span><h3>{item.title}</h3><p>{item.summary}</p><span className="text-link">Conheça o projeto <span>↗</span></span></div></Link>
   })}</div>
 }
