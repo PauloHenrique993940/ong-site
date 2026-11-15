@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Raízes — site institucional
 
-## Getting Started
+Site institucional e portal de conteúdo feito com Next.js App Router, TypeScript, Tailwind CSS e Sanity Studio.
 
-First, run the development server:
+## Começar localmente
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. `npm install`
+2. Copie `.env.example` para `.env.local` e informe o Project ID e o dataset do Sanity. Defina também `NEXT_PUBLIC_SITE_URL` com a URL final antes do deploy.
+3. `npm run dev`
+4. Abra `http://localhost:3000`; o Studio fica em `/studio`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Sem credenciais do Sanity, o site inicia e mostra estados vazios nos espaços gerenciados pelo CMS. O Studio precisa de um projeto Sanity real configurado para editar conteúdo.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Preparar o Sanity
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Crie ou selecione um projeto Sanity e defina `NEXT_PUBLIC_SANITY_PROJECT_ID` e `NEXT_PUBLIC_SANITY_DATASET`.
+2. Em **sanity.io/manage → API settings → CORS origins**, adicione `http://localhost:3000` e a URL do site publicado; habilite credenciais somente para origens do Studio.
+3. Em **sanity.io/manage → API → Webhooks**, crie um webhook para `https://SEU_DOMINIO/api/revalidate`.
+4. Selecione Create, Update e Delete; filtre `_type in ["post", "projeto", "relatorioTransparencia", "configuracoesGerais"]`; projeção `{_type}`; método POST.
+5. Defina um segredo forte no webhook e o mesmo valor em `SANITY_REVALIDATE_SECRET` na Vercel.
+6. Publique um documento para que as rotas com tags correspondentes sejam revalidadas.
 
-## Learn More
+## Conteúdo e identidade
 
-To learn more about Next.js, take a look at the following resources:
+Os schemas ficam em `src/sanity/schemaTypes`. O conteúdo editável inclui notícias, projetos, relatórios PDF e configurações gerais (contato, redes sociais e chave PIX). Antes de publicar o site, substitua nome, e-mail, textos, imagens e métricas demonstrativas pelos dados oficiais da ONG.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Importe `ong-site` como projeto na Vercel, configure as três variáveis de ambiente acima e faça o deploy. O deploy padrão inclui o plano Hobby da Vercel, sujeito aos limites e termos vigentes da plataforma.
