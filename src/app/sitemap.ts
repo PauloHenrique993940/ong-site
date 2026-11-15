@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { sanityFetch } from '@/sanity/lib/client'
 import { SITEMAP_QUERY } from '@/sanity/lib/queries'
+import { getSiteUrl } from '@/lib/siteUrl'
 
 export const revalidate = 3600
 
@@ -8,7 +9,7 @@ type Entry = { _type: 'post' | 'projeto'; slug: string; _updatedAt?: string }
 const staticRoutes = ['', '/sobre', '/projetos', '/noticias', '/transparencia', '/doe']
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000').replace(/\/$/, '')
+  const base = getSiteUrl().origin
   const entries = await sanityFetch<Entry[]>(SITEMAP_QUERY, {}, ['posts', 'projetos'])
   return [
     ...staticRoutes.map((path) => ({ url: `${base}${path}`, changeFrequency: path === '' ? 'weekly' as const : 'monthly' as const, priority: path === '' ? 1 : 0.6 })),
